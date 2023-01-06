@@ -19,7 +19,7 @@ const SynthContext = createContext<SynthContext | undefined>(undefined);
 SynthContext.displayName = 'SynthContext';
 
 const SynthProvider = ({ children }: SynthProviderProps) => {
-  const [state, setState] = useState<SynthState | undefined>(undefined);
+  const [synth, setSynthState] = useState<SynthState | null>(null);
 
   function createAudioCtx() {
     return new Promise<AudioContext>((resolve, reject) => {
@@ -62,31 +62,24 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
     });
   }
 
-  function setSynthState(synthState: SynthState) {
-    return new Promise<SynthState>((resolve, reject) => {
-      setState(synthState);
-      resolve(synthState);
-    });
-  }
-
-  async function startSynth() {
-    if (state) {
-      state.modulator.frequency.setValueAtTime(176, state.audioCtx.currentTime);
-      state.carrier.frequency.value = 44;
-      state.modulator.start();
-      state.carrier.start();
-    }
-  }
-
   async function init() {
     const audioCtx = await createAudioCtx();
     const synthState = await createNodes(audioCtx);
     const connected = await connectNodes(synthState);
-
-    const synthReady = await setSynthState(connected);
-
-    await startSynth();
+    setSynthState(connected);
   }
+
+  function startSynth() {
+    if (!synth) return;
+    synth.modulator.frequency.setValueAtTime(176, synth.audioCtx.currentTime);
+    synth.carrier.frequency.value = 44;
+    synth.modulator.start();
+    synth.carrier.start();
+  }
+
+  useEffect(() => {
+    startSynth();
+  }, [synth]);
 
   const value = { init };
 
