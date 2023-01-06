@@ -1,23 +1,39 @@
-import { createContext, useContext, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 
 type SynthProviderProps = { children: ReactNode };
 
 const SynthContext = createContext<
   | {
-      audioCtx: AudioContext | null;
+      analyser: AnalyserNode;
+      modulator: OscillatorNode;
+      carrier: OscillatorNode;
+      modGain: GainNode;
+      masterGain: GainNode;
     }
   | undefined
 >(undefined);
 
 SynthContext.displayName = 'SynthContext';
 
-const SynthProvider = ({ children }: SynthProviderProps) => {
-  const audioCtx = new AudioContext();
+const audioCtx = new AudioContext();
+const analyser = audioCtx.createAnalyser();
+const modulator = audioCtx.createOscillator();
+const carrier = audioCtx.createOscillator();
+const modGain = audioCtx.createGain();
+const masterGain = audioCtx.createGain();
 
-  const value = { audioCtx };
+const SynthProvider = ({ children }: SynthProviderProps) => {
+  const [state, setState] = useState({
+    analyser,
+    modulator,
+    carrier,
+    modGain,
+    masterGain,
+  });
 
   return (
-    <SynthContext.Provider value={value}>{children} </SynthContext.Provider>
+    <SynthContext.Provider value={state}>{children} </SynthContext.Provider>
   );
 };
 
