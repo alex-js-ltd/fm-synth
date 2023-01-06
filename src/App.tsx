@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
 import { useSynth } from 'context/synth-context';
 
 function App() {
-  const { init } = useSynth();
+  const { setAudioCtx } = useSynth();
 
   useEffect(() => {}, []);
 
   return (
     <div className='App'>
-      <button onClick={() => init()}>start the synth!</button>
+      <button onClick={() => setAudioCtx(new AudioContext())}>
+        start the synth!
+      </button>
     </div>
   );
 }
