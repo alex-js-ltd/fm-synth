@@ -49,26 +49,43 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
   }
 
   function connectNodes(synthState: SynthState) {
-    const { analyser, modulator, carrier, modGain, masterGain, audioCtx } =
-      synthState;
-    modulator.connect(modGain);
-    modGain.connect(carrier.frequency);
-    carrier.connect(masterGain);
-    masterGain.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    modulator.frequency.setValueAtTime(176, audioCtx.currentTime);
-    carrier.frequency.value = 44;
-    modulator.start();
-    carrier.start();
+    return new Promise<SynthState>((resolve, reject) => {
+      const { analyser, modulator, carrier, modGain, masterGain, audioCtx } =
+        synthState;
+      modulator.connect(modGain);
+      modGain.connect(carrier.frequency);
+      carrier.connect(masterGain);
+      masterGain.connect(analyser);
+      analyser.connect(audioCtx.destination);
+
+      resolve(synthState);
+    });
   }
 
-  async function init(): Promise<SynthState> {
+  function setSynthState(synthState: SynthState) {
+    return new Promise<SynthState>((resolve, reject) => {
+      setState(synthState);
+      resolve(synthState);
+    });
+  }
+
+  async function startSynth() {
+    if (state) {
+      state.modulator.frequency.setValueAtTime(176, state.audioCtx.currentTime);
+      state.carrier.frequency.value = 44;
+      state.modulator.start();
+      state.carrier.start();
+    }
+  }
+
+  async function init() {
     const audioCtx = await createAudioCtx();
     const synthState = await createNodes(audioCtx);
-    connectNodes(synthState);
+    const connected = await connectNodes(synthState);
 
-    console.log(synthState);
-    return synthState;
+    const synthReady = await setSynthState(connected);
+
+    await startSynth();
   }
 
   const value = { init };

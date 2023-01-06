@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div className='App'>
-      <button onClick={() => init()}></button>
+      <button onClick={() => init()}>start the synth!</button>
     </div>
   );
 }
