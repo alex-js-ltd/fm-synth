@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useRef,
-  useState,
-  useLayoutEffect,
-} from 'react';
+import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 
 type SynthProviderProps = { children: ReactNode };
@@ -52,8 +46,6 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
     masterGain.connect(analyser);
     analyser.connect(audioCtx.destination);
   };
-
-  async function init() {}
 
   const value = { setAudioCtx };
 
