@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
+import { createContext, useContext, useState } from 'react';
+import { useNonInitialEffect } from 'utils/use-non-initial-effect';
 
 type SynthProviderProps = { children: ReactNode };
 
@@ -21,7 +22,8 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
   const [audioCtx, setAudioCtx] = useState<AudioContext>();
   const [nodes, setNodes] = useState<Nodes>();
 
-  const createNodes = (audioCtx: AudioContext) => {
+  const createNodes = (audioCtx?: AudioContext) => {
+    if (!audioCtx) return;
     const analyser = audioCtx.createAnalyser();
     const modulator = audioCtx.createOscillator();
     const carrier = audioCtx.createOscillator();
@@ -37,7 +39,9 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
     });
   };
 
-  const connectNodes = (nodes: Nodes, audioCtx: AudioContext) => {
+  const connectNodes = (nodes?: Nodes, audioCtx?: AudioContext) => {
+    if (!nodes || !audioCtx) return;
+
     const { analyser, modulator, carrier, modGain, masterGain } = nodes;
 
     modulator.connect(modGain);
@@ -45,7 +49,27 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
     carrier.connect(masterGain);
     masterGain.connect(analyser);
     analyser.connect(audioCtx.destination);
+    startSynth(nodes, audioCtx);
   };
+
+  const startSynth = (nodes?: Nodes, audioCtx?: AudioContext) => {
+    if (!nodes || !audioCtx) return;
+
+    const { modulator, carrier } = nodes;
+
+    modulator.frequency.setValueAtTime(176, audioCtx.currentTime);
+    carrier.frequency.value = 44;
+    modulator.start();
+    carrier.start();
+  };
+
+  useNonInitialEffect(() => {
+    createNodes(audioCtx);
+  }, [audioCtx]);
+
+  useNonInitialEffect(() => {
+    connectNodes(nodes, audioCtx);
+  }, [nodes]);
 
   const value = { setAudioCtx };
 
