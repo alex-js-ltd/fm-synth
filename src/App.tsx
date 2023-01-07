@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSynth } from 'context/synth-context';
+
 import './App.css';
 
 function App() {

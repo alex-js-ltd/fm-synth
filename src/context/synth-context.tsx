@@ -19,44 +19,38 @@ const SynthContext = createContext<
 SynthContext.displayName = 'SynthContext';
 
 const SynthProvider = ({ children }: SynthProviderProps) => {
-  const [audioCtx, setAudioCtx] = useState<AudioContext>();
+  const [audioCtx, setAudioCtx] = useState<AudioContext>(new AudioContext());
   const [nodes, setNodes] = useState<Nodes>();
 
-  const createNodes = (audioCtx?: AudioContext) => {
-    if (!audioCtx) return;
+  const createNodes = (audioCtx: AudioContext) => {
     const analyser = audioCtx.createAnalyser();
     const modulator = audioCtx.createOscillator();
     const carrier = audioCtx.createOscillator();
     const modGain = audioCtx.createGain();
     const masterGain = audioCtx.createGain();
 
-    setNodes({
+    return {
       analyser,
       modulator,
       carrier,
       modGain,
       masterGain,
-    });
+    };
   };
 
-  const connectNodes = (nodes?: Nodes, audioCtx?: AudioContext) => {
-    if (!nodes || !audioCtx) return;
+  const { analyser, modulator, carrier, modGain, masterGain } =
+    createNodes(audioCtx);
 
-    const { analyser, modulator, carrier, modGain, masterGain } = nodes;
-
+  const connectNodes = () => {
     modulator.connect(modGain);
     modGain.connect(carrier.frequency);
     carrier.connect(masterGain);
     masterGain.connect(analyser);
     analyser.connect(audioCtx.destination);
-    startSynth(nodes, audioCtx);
+    startSynth(modulator, carrier);
   };
 
-  const startSynth = (nodes?: Nodes, audioCtx?: AudioContext) => {
-    if (!nodes || !audioCtx) return;
-
-    const { modulator, carrier } = nodes;
-
+  const startSynth = (modulator: OscillatorNode, carrier: OscillatorNode) => {
     modulator.frequency.setValueAtTime(176, audioCtx.currentTime);
     carrier.frequency.value = 44;
     modulator.start();
@@ -65,11 +59,9 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
 
   useNonInitialEffect(() => {
     createNodes(audioCtx);
+    connectNodes();
+    startSynth(modulator, carrier);
   }, [audioCtx]);
-
-  useNonInitialEffect(() => {
-    connectNodes(nodes, audioCtx);
-  }, [nodes]);
 
   const value = { setAudioCtx, nodes };
 
