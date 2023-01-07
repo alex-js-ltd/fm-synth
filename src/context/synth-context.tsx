@@ -12,9 +12,9 @@ type Nodes = {
   masterGain: GainNode;
 };
 
-const SynthContext = createContext<{ setAudioCtx: Function } | undefined>(
-  undefined
-);
+const SynthContext = createContext<
+  { setAudioCtx: Function; nodes?: Nodes } | undefined
+>(undefined);
 
 SynthContext.displayName = 'SynthContext';
 
@@ -71,7 +71,7 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
     connectNodes(nodes, audioCtx);
   }, [nodes]);
 
-  const value = { setAudioCtx };
+  const value = { setAudioCtx, nodes };
 
   return (
     <SynthContext.Provider value={value}>{children} </SynthContext.Provider>

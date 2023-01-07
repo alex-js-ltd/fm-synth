@@ -1,17 +1,14 @@
 import React, { useEffect } from 'react';
 import { useSynth } from 'context/synth-context';
+import './App.css';
 
 function App() {
   const { setAudioCtx } = useSynth();
 
-  useEffect(() => {}, []);
-
   return (
-    <div className='App'>
-      <button onClick={() => setAudioCtx(new AudioContext())}>
-        start the synth!
-      </button>
-    </div>
+    <section>
+      <button onClick={() => setAudioCtx(new AudioContext())}>start!</button>
+    </section>
   );
 }
 
