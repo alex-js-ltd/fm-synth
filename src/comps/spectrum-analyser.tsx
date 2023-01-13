@@ -1,9 +1,9 @@
+import { useSynth } from 'context/synth-context';
 import { useSpectrumAnalyser } from 'utils/use-spectrum-analyser';
 
-type Props = { analyser?: AnalyserNode };
-
-const SpectrumAnalayser = ({ analyser }: Props) => {
-  const { oscilloscope } = useSpectrumAnalyser(analyser);
+const SpectrumAnalayser = () => {
+  const { nodes } = useSynth();
+  const { oscilloscope } = useSpectrumAnalyser(nodes?.analyser);
 
   return <canvas ref={oscilloscope}></canvas>;
 };

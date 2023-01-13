@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
 import { useSynth } from 'context/synth-context';
 import SpectrumAnalayser from 'comps/spectrum-analyser';
+import Grid from 'comps/grid';
 import './App.css';
 
 const App = () => {
-  const { setAudioCtx, nodes } = useSynth();
+  const { setAudioCtx } = useSynth();
 
   return (
     <section>
       <button onClick={() => setAudioCtx(new AudioContext())}>start!</button>
 
-      <SpectrumAnalayser analyser={nodes?.analyser} />
+      <SpectrumAnalayser />
+      <Grid />
     </section>
   );
 };

@@ -1,6 +1,6 @@
-import type { Nodes } from 'types';
+import type { Nodes, Freq } from 'types';
 
-const useNodes = (audioCtx?: AudioContext): Nodes | null => {
+const useNodes = (freq: Freq, audioCtx?: AudioContext): Nodes | null => {
   if (!audioCtx) return null;
 
   const analyser = audioCtx.createAnalyser();
@@ -15,8 +15,8 @@ const useNodes = (audioCtx?: AudioContext): Nodes | null => {
   masterGain.connect(analyser);
   analyser.connect(audioCtx.destination);
 
-  modulator.frequency.setValueAtTime(176, audioCtx.currentTime);
-  carrier.frequency.value = 44;
+  modulator.frequency.setValueAtTime(freq.modulator, audioCtx.currentTime);
+  carrier.frequency.value = freq.carrier;
   modulator.start();
   carrier.start();
 

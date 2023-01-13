@@ -6,4 +6,7 @@ type Nodes = {
   masterGain: GainNode;
 };
 
-export type { Nodes };
+type Freq = { carrier: number; modulator: number };
+type Env = { attack: number; release: number };
+
+export type { Nodes, Freq, Env };
