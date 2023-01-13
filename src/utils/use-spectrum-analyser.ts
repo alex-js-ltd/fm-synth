@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import type { RefObject } from 'react';
+import { blue } from 'styles/colors';
 
 type SpectrumAnalyser = { oscilloscope: RefObject<HTMLCanvasElement> };
 
@@ -61,7 +62,7 @@ const useSpectrumAnalyser = (analyser?: AnalyserNode): SpectrumAnalyser => {
     const scopeContext = scopeCanvas.getContext('2d');
 
     if (!scopeContext) return;
-    scopeContext.strokeStyle = '#7efbec';
+    scopeContext.strokeStyle = blue;
     drawOscilloscope(scopeContext, scopeCanvas, waveform);
   }, [analyser]);
 

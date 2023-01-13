@@ -1,21 +1,22 @@
 import { useFrequency } from 'utils/use-frequency';
 import { useSynth } from 'context/synth-context';
+import { blue, light } from 'styles/colors';
 
 type Props = {
   frequency: number;
 };
 
-const blue = '1px solid #7efbec';
-const light = '1px solid #444342';
-
 const Note = ({ frequency }: Props) => {
   const { on } = useFrequency(frequency);
   const { setSynthState } = useSynth();
 
+  let color = on ? blue : light;
+  let border = `1px solid ${color}`;
+
   return (
     <button
       style={{
-        border: on ? blue : light,
+        border,
       }}
       onClick={() =>
         setSynthState((prev) => ({
