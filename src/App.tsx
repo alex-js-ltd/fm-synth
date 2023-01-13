@@ -5,7 +5,7 @@ import Grid from 'comps/grid';
 import ModulatorFreq from 'comps/modulator-freq';
 import ModulatorDepth from 'comps/modulator-depth';
 import Github from 'comps/github';
-import './App.css';
+import 'styles/app.css';
 
 const App = () => {
   const { setSynthState, audioCtx } = useSynth();
