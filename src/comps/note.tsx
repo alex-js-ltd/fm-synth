@@ -9,16 +9,20 @@ const blue = '1px solid #7efbec';
 const light = '1px solid #444342';
 
 const Note = ({ frequency }: Props) => {
-  const { changeFrequency } = useFrequency();
-  const { nodes } = useSynth();
+  const { on } = useFrequency(frequency);
+  const { setSynthState } = useSynth();
 
-  console.log('carrier freq', nodes?.carrier.frequency.value);
   return (
     <button
       style={{
-        border: nodes?.carrier.frequency.value === frequency ? blue : light,
+        border: on ? blue : light,
       }}
-      onClick={() => changeFrequency(frequency)}
+      onClick={() =>
+        setSynthState((prev) => ({
+          ...prev,
+          freq: { ...prev.freq, carrier: frequency },
+        }))
+      }
     >
       {frequency}
     </button>
