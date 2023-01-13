@@ -50,8 +50,11 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
     nodes.carrier.connect(nodes.masterGain);
     nodes.masterGain.connect(nodes.analyser);
     nodes.analyser.connect(audioCtx.destination);
-    nodes.modulator.frequency.setValueAtTime(176, audioCtx.currentTime);
-    nodes.carrier.frequency.value = 44;
+    nodes.modulator.frequency.setValueAtTime(
+      state.freq.modulator,
+      audioCtx.currentTime
+    );
+    nodes.carrier.frequency.value = state.freq.carrier;
     nodes.modulator.start();
     nodes.carrier.start();
 
