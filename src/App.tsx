@@ -4,11 +4,17 @@ import Grid from 'comps/grid';
 import './App.css';
 
 const App = () => {
-  const { setAudioCtx } = useSynth();
+  const { setSynthState } = useSynth();
 
   return (
     <section>
-      <button onClick={() => setAudioCtx(new AudioContext())}>start!</button>
+      <button
+        onClick={() =>
+          setSynthState((prev) => ({ ...prev, audioCtx: new AudioContext() }))
+        }
+      >
+        start!
+      </button>
 
       <SpectrumAnalayser />
       <Grid />

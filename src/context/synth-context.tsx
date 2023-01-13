@@ -11,7 +11,7 @@ type State = {
 };
 
 type Context = State & {
-  setAudioCtx: Function;
+  setSynthState: Dispatch<SetStateAction<State>>;
 };
 
 const SynthContext = createContext<Context | undefined>(undefined);
@@ -19,16 +19,13 @@ const SynthContext = createContext<Context | undefined>(undefined);
 SynthContext.displayName = 'SynthContext';
 
 const SynthProvider = ({ children }: SynthProviderProps) => {
-  const [state, setState] = useState<State>({
+  const [state, setSynthState] = useState<State>({
     env: { attack: 1, release: 1 },
   });
 
-  const setAudioCtx = () => {
-    setState({ ...state, audioCtx: new AudioContext() });
-  };
-
   const setNodes = (audioCtx?: AudioContext) => {
     if (!audioCtx) return;
+
     const nodes = {
       analyser: audioCtx.createAnalyser(),
       modulator: audioCtx.createOscillator(),
@@ -47,7 +44,7 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
     nodes.modulator.start();
     nodes.carrier.start();
 
-    setState({ ...state, nodes });
+    setSynthState({ ...state, nodes });
   };
 
   useEffect(() => {
@@ -56,9 +53,9 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
 
   const value = {
     audioCtx: state?.audioCtx,
-    setAudioCtx,
     nodes: state?.nodes,
     env: state.env,
+    setSynthState,
   };
 
   return (

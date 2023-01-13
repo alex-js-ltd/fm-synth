@@ -4,7 +4,7 @@ import { useSynth } from 'context/synth-context';
 type Props = { frequency: number };
 
 const useFrequency = () => {
-  const { audioCtx, nodes, env } = useSynth();
+  const { audioCtx, nodes, env, setSynthState } = useSynth();
 
   const changeFrequency = (frequency: number) => {
     if (!audioCtx || !nodes) return;
@@ -13,18 +13,25 @@ const useFrequency = () => {
       audioCtx.resume();
     }
 
-    nodes.carrier.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+    const copyNodes = { ...nodes };
+
+    copyNodes.carrier.frequency.setValueAtTime(frequency, audioCtx.currentTime);
     const now = audioCtx.currentTime;
-    nodes.masterGain.gain.cancelScheduledValues(now);
-    nodes.masterGain.gain.setValueAtTime(nodes.masterGain.gain.value, now);
-    nodes.masterGain.gain.linearRampToValueAtTime(1, now + env.attack);
-    nodes.masterGain.gain.linearRampToValueAtTime(
+    copyNodes.masterGain.gain.cancelScheduledValues(now);
+    copyNodes.masterGain.gain.setValueAtTime(
+      copyNodes.masterGain.gain.value,
+      now
+    );
+    copyNodes.masterGain.gain.linearRampToValueAtTime(1, now + env.attack);
+    copyNodes.masterGain.gain.linearRampToValueAtTime(
       0,
       now + env.attack + env.release * 5
     );
+
+    setSynthState((prev) => ({ ...prev, nodes: copyNodes }));
   };
 
-  return { changeFrequency, nodes };
+  return { changeFrequency };
 };
 
 export { useFrequency };
