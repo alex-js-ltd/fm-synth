@@ -3,7 +3,7 @@ import type { RefObject } from 'react';
 
 type SpectrumAnalyser = { oscilloscope: RefObject<HTMLCanvasElement> };
 
-const useSpectrumAnalayser = (analyser?: AnalyserNode): SpectrumAnalyser => {
+const useSpectrumAnalyser = (analyser?: AnalyserNode): SpectrumAnalyser => {
   const oscilloscope = useRef<HTMLCanvasElement>(null);
 
   const createWaveForm = (
@@ -68,4 +68,4 @@ const useSpectrumAnalayser = (analyser?: AnalyserNode): SpectrumAnalyser => {
   return { oscilloscope };
 };
 
-export { useSpectrumAnalayser };
+export { useSpectrumAnalyser };

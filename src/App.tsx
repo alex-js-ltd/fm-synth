@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
 import { useSynth } from 'context/synth-context';
-import { useSpectrumAnalayser } from 'utils/use-spectrum-analyser';
+import SpectrumAnalayser from 'comps/spectrum-analyser';
 import './App.css';
 
-function App() {
+const App = () => {
   const { setAudioCtx, nodes } = useSynth();
 
-  const { oscilloscope } = useSpectrumAnalayser(nodes?.analyser);
   return (
     <section>
       <button onClick={() => setAudioCtx(new AudioContext())}>start!</button>
 
-      <canvas ref={oscilloscope}></canvas>
+      <SpectrumAnalayser analyser={nodes?.analyser} />
     </section>
   );
-}
+};
 
 export default App;
