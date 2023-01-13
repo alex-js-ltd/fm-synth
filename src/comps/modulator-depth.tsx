@@ -4,13 +4,11 @@ import { useSynth } from 'context/synth-context';
 const ModulatorDepth = () => {
   const { audioCtx, nodes, freq, setSynthState } = useSynth();
 
-  if (!audioCtx) {
+  if (!audioCtx || !nodes) {
     return null;
   }
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!nodes) return;
-
     const update = Number(e.target.value);
 
     const copyNodes = { ...nodes };
