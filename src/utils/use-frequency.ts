@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSynth } from 'context/synth-context';
 
 const useFrequency = (note: number) => {
-  const { audioCtx, nodes, env, freq } = useSynth();
+  const { audioCtx, nodes, env, freq, setSynthState } = useSynth();
 
   const changeFrequency = (frequency: number) => {
     if (!audioCtx || !nodes) return;
@@ -11,15 +11,17 @@ const useFrequency = (note: number) => {
       audioCtx.resume();
     }
 
-    nodes.carrier.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+    const copyNodes = { ...nodes };
     const now = audioCtx.currentTime;
-    nodes.masterGain.gain.cancelScheduledValues(now);
-    nodes.masterGain.gain.setValueAtTime(nodes.masterGain.gain.value, now);
-    nodes.masterGain.gain.linearRampToValueAtTime(1, now + env.attack);
-    nodes.masterGain.gain.linearRampToValueAtTime(
+    copyNodes.carrier.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+    copyNodes.masterGain.gain.cancelScheduledValues(now);
+    copyNodes.masterGain.gain.setValueAtTime(nodes.masterGain.gain.value, now);
+    copyNodes.masterGain.gain.linearRampToValueAtTime(1, now + env.attack);
+    copyNodes.masterGain.gain.linearRampToValueAtTime(
       0,
       now + env.attack + env.release * 5
     );
+    setSynthState((prev) => ({ ...prev, nodes: copyNodes }));
   };
 
   useEffect(() => {
