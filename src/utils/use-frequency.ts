@@ -3,10 +3,10 @@ import { useSynth } from 'context/synth-context';
 
 type Props = { frequency: number };
 
-const useFrequency = ({ frequency }: Props) => {
-  const { audioCtx, nodes, freq, setFreq, env } = useSynth();
+const useFrequency = () => {
+  const { audioCtx, nodes, env } = useSynth();
 
-  const changeFrequency = () => {
+  const changeFrequency = (frequency: number) => {
     if (!audioCtx || !nodes) return;
 
     if (audioCtx.state === 'suspended') {
@@ -24,11 +24,7 @@ const useFrequency = ({ frequency }: Props) => {
     );
   };
 
-  useEffect(() => {
-    changeFrequency();
-  }, [freq]);
-
-  return { setFreq, on: frequency === freq.carrier };
+  return { changeFrequency, nodes };
 };
 
 export { useFrequency };

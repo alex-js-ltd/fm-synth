@@ -8,13 +8,18 @@ const blue = '1px solid #7efbec';
 const light = '1px solid #444342';
 
 const Note = ({ frequency }: Props) => {
-  const { setFreq, on } = useFrequency({ frequency });
+  const { changeFrequency, nodes } = useFrequency();
 
+  console.log('carrier freq', nodes?.carrier.frequency.value);
   return (
     <button
-      style={{ border: on ? blue : light }}
-      onClick={() => setFreq((prev) => ({ ...prev, carrier: frequency }))}
-    ></button>
+      style={{
+        border: nodes?.carrier.frequency.value === frequency ? blue : light,
+      }}
+      onClick={() => changeFrequency(frequency)}
+    >
+      {frequency}
+    </button>
   );
 };
 
