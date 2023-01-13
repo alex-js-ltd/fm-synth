@@ -31,6 +31,15 @@ section {
   margin: 12px 0px;
 }
 
+.controls {
+  width: 386px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 0px;
+}
+
 @media (max-width: 414px) {
   canvas,
   section {

@@ -8,22 +8,25 @@ import Github from 'comps/github';
 import './App.css';
 
 const App = () => {
-  const { setSynthState } = useSynth();
+  const { setSynthState, audioCtx } = useSynth();
+
+  const Start = () => (
+    <button
+      onClick={() =>
+        setSynthState((prev) => ({ ...prev, audioCtx: new AudioContext() }))
+      }
+    >
+      start!
+    </button>
+  );
 
   return (
     <Fragment>
-      <section>
-        <button
-          onClick={() =>
-            setSynthState((prev) => ({ ...prev, audioCtx: new AudioContext() }))
-          }
-        >
-          start!
-        </button>
-
+      <div className='controls'>
+        {audioCtx ? null : <Start />}
         <ModulatorFreq />
         <ModulatorDepth />
-      </section>
+      </div>
 
       <SpectrumAnalayser />
       <Grid />
