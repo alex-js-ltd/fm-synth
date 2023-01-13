@@ -23,9 +23,7 @@ const Note = ({ frequency }: Props) => {
           freq: { ...prev.freq, carrier: frequency },
         }))
       }
-    >
-      {frequency}
-    </button>
+    ></button>
   );
 };
 

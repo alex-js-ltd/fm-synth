@@ -4,6 +4,7 @@ import SpectrumAnalayser from 'comps/spectrum-analyser';
 import Grid from 'comps/grid';
 import ModulatorFreq from 'comps/modulator-freq';
 import ModulatorDepth from 'comps/modulator-depth';
+import Github from 'comps/github';
 import './App.css';
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
 
       <SpectrumAnalayser />
       <Grid />
+      <Github />
     </Fragment>
   );
 };

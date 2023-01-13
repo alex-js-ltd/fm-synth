@@ -1,8 +1,15 @@
 import type { ReactNode, Dispatch, SetStateAction } from 'react';
-import type { Nodes } from 'types';
 import { createContext, useContext, useState, useEffect } from 'react';
 
 type SynthProviderProps = { children: ReactNode };
+
+type Nodes = {
+  analyser: AnalyserNode;
+  modulator: OscillatorNode;
+  carrier: OscillatorNode;
+  modGain: GainNode;
+  masterGain: GainNode;
+};
 
 type State = {
   audioCtx?: AudioContext;
