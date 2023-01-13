@@ -15,7 +15,10 @@ const useFrequency = (note: number) => {
     const now = audioCtx.currentTime;
     copyNodes.carrier.frequency.setValueAtTime(frequency, audioCtx.currentTime);
     copyNodes.masterGain.gain.cancelScheduledValues(now);
-    copyNodes.masterGain.gain.setValueAtTime(nodes.masterGain.gain.value, now);
+    copyNodes.masterGain.gain.setValueAtTime(
+      copyNodes.masterGain.gain.value,
+      now
+    );
     copyNodes.masterGain.gain.linearRampToValueAtTime(1, now + env.attack);
     copyNodes.masterGain.gain.linearRampToValueAtTime(
       0,

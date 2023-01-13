@@ -9,6 +9,7 @@ type State = {
   nodes?: Nodes;
   env: { attack: number; release: number };
   freq: { carrier: number; modulator: number };
+  gain: { carrier: number; modulator: number };
 };
 
 type Context = State & {
@@ -23,6 +24,7 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
   const [state, setSynthState] = useState<State>({
     env: { attack: 1, release: 1 },
     freq: { carrier: 44, modulator: 176 },
+    gain: { carrier: 100, modulator: 40 },
   });
 
   const setNodes = (audioCtx?: AudioContext) => {
@@ -58,6 +60,7 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
     nodes: state?.nodes,
     env: state.env,
     freq: state.freq,
+    gain: state.gain,
     setSynthState,
   };
 

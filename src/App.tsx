@@ -3,6 +3,7 @@ import { useSynth } from 'context/synth-context';
 import SpectrumAnalayser from 'comps/spectrum-analyser';
 import Grid from 'comps/grid';
 import ModulatorFreq from 'comps/modulator-freq';
+import ModulatorDepth from 'comps/modulator-depth';
 import './App.css';
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
         </button>
 
         <ModulatorFreq />
+        <ModulatorDepth />
       </section>
 
       <SpectrumAnalayser />
