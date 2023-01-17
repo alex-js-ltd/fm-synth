@@ -21,7 +21,7 @@ const App = () => {
   );
 
   return (
-    <Fragment>
+    <div className='wrapper'>
       <div className='controls'>
         {audioCtx ? null : <Start />}
         <ModulatorFreq />
@@ -31,7 +31,7 @@ const App = () => {
       <SpectrumAnalayser />
       <Grid />
       <Github />
-    </Fragment>
+    </div>
   );
 };
 

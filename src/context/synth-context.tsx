@@ -65,17 +65,19 @@ const SynthProvider = ({ children }: SynthProviderProps) => {
     setNodes(state?.audioCtx);
   }, [state?.audioCtx]);
 
-  const value = {
-    audioCtx: state?.audioCtx,
-    nodes: state?.nodes,
-    env: state.env,
-    freq: state.freq,
-    gain: state.gain,
-    setSynthState,
-  };
-
   return (
-    <SynthContext.Provider value={value}>{children} </SynthContext.Provider>
+    <SynthContext.Provider
+      value={{
+        audioCtx: state?.audioCtx,
+        nodes: state?.nodes,
+        env: state.env,
+        freq: state.freq,
+        gain: state.gain,
+        setSynthState,
+      }}
+    >
+      {children}{' '}
+    </SynthContext.Provider>
   );
 };
 
