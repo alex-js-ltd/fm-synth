@@ -5,7 +5,6 @@ import * as colors from 'styles/colors';
 import styled from '@emotion/styled';
 
 const PadListUL = styled.ul({
-  padding: 0,
   width: '100%',
   margin: '0 auto',
   listStyle: 'none',
@@ -15,6 +14,10 @@ const PadListUL = styled.ul({
 
   [mq.small]: {
     gridTemplateColumns: `repeat(4, 1fr)`,
+  },
+
+  [mq.mobile]: {
+    gridTemplateColumns: `repeat(2, 1fr)`,
   },
 });
 

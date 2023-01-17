@@ -16,6 +16,7 @@ const App = () => {
   const Start = () => (
     <Splash>
       <TbHandClick
+        size={70}
         style={{ color: colors.light }}
         onClick={() =>
           setSynthState((prev) => ({ ...prev, audioCtx: new AudioContext() }))

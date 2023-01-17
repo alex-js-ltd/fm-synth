@@ -21,10 +21,13 @@ body {
 }
 
 .wrapper {
-  padding: 1em;
   margin: 0 auto;
   max-width: 840px;
-  width: 100%;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 canvas {
