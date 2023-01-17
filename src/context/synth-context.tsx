@@ -30,8 +30,8 @@ SynthContext.displayName = 'SynthContext';
 const SynthProvider = ({ children }: SynthProviderProps) => {
   const [state, setSynthState] = useState<State>({
     env: { attack: 1, release: 1 },
-    freq: { carrier: 44, modulator: 176 },
-    gain: { carrier: 100, modulator: 40 },
+    freq: { carrier: 66, modulator: 176 },
+    gain: { carrier: 100, modulator: 100 },
   });
 
   const setNodes = (audioCtx?: AudioContext) => {

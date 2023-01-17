@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import * as mq from 'styles/media-queries';
+import * as colors from 'styles/colors';
 import styled from '@emotion/styled';
 
 const PadListUL = styled.ul({
@@ -17,4 +18,17 @@ const PadListUL = styled.ul({
   },
 });
 
-export { PadListUL };
+const Splash = styled.div({
+  position: 'fixed',
+  top: '0px',
+  right: '0px',
+  width: '100vw',
+  height: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  background: colors.dark,
+  colors: 'white',
+});
+
+export { PadListUL, Splash };

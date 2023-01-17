@@ -5,19 +5,23 @@ import Grid from 'comps/grid';
 import ModulatorFreq from 'comps/modulator-freq';
 import ModulatorDepth from 'comps/modulator-depth';
 import Github from 'comps/github';
+import { Splash } from 'comps/lib';
+import { TbHandClick } from 'react-icons/tb';
+import * as colors from 'styles/colors';
 import 'styles/app.css';
 
 const App = () => {
   const { setSynthState, audioCtx } = useSynth();
 
   const Start = () => (
-    <button
-      onClick={() =>
-        setSynthState((prev) => ({ ...prev, audioCtx: new AudioContext() }))
-      }
-    >
-      start!
-    </button>
+    <Splash>
+      <TbHandClick
+        style={{ color: colors.light }}
+        onClick={() =>
+          setSynthState((prev) => ({ ...prev, audioCtx: new AudioContext() }))
+        }
+      />
+    </Splash>
   );
 
   return (

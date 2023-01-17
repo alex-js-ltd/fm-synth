@@ -2,7 +2,7 @@ import type { ChangeEvent } from 'react';
 import { useSynth } from 'context/synth-context';
 
 const ModulatorDepth = () => {
-  const { audioCtx, nodes, freq, setSynthState } = useSynth();
+  const { audioCtx, nodes, freq, gain, setSynthState } = useSynth();
 
   if (!audioCtx || !nodes) {
     return null;
@@ -23,7 +23,7 @@ const ModulatorDepth = () => {
       type='range'
       min={0}
       max={300}
-      defaultValue={freq.carrier}
+      defaultValue={gain.modulator}
       onChange={(e) => onChange(e)}
     />
   );
