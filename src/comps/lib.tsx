@@ -15,10 +15,6 @@ const PadListUL = styled.ul({
   [mq.small]: {
     gridTemplateColumns: `repeat(4, 1fr)`,
   },
-
-  [mq.mobile]: {
-    gridTemplateColumns: `repeat(2, 1fr)`,
-  },
 });
 
 const Splash = styled.div({
