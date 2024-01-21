@@ -1,8 +1,8 @@
-import type { ChangeEvent } from 'react';
-import { useSynth } from 'context/synth-context';
+import type { ChangeEvent } from "react";
+import { useSynth } from "context/synth-context";
 
 const ModulatorDepth = () => {
-  const { audioCtx, nodes, freq, gain, setSynthState } = useSynth();
+  const { audioCtx, nodes, gain, setSynthState } = useSynth();
 
   if (!audioCtx || !nodes) {
     return null;
@@ -20,7 +20,7 @@ const ModulatorDepth = () => {
 
   return (
     <input
-      type='range'
+      type="range"
       min={0}
       max={300}
       defaultValue={gain.modulator}

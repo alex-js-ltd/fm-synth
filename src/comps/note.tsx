@@ -1,6 +1,6 @@
-import { useFrequency } from 'utils/use-frequency';
-import { useSynth } from 'context/synth-context';
-import { blue, light } from 'styles/colors';
+import { useFrequency } from "utils/use-frequency";
+import { useSynth } from "context/synth-context";
+import { blue, light } from "styles/colors";
 
 type Props = {
   frequency: number;

@@ -1,5 +1,11 @@
-import type { ReactNode, Dispatch, SetStateAction } from 'react';
-import { createContext, useContext, useState, useEffect } from 'react';
+import type { ReactNode, Dispatch, SetStateAction } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 
 type SynthProviderProps = { children: ReactNode };
 
@@ -25,58 +31,62 @@ type Context = State & {
 
 const SynthContext = createContext<Context | undefined>(undefined);
 
-SynthContext.displayName = 'SynthContext';
+SynthContext.displayName = "SynthContext";
 
 const SynthProvider = ({ children }: SynthProviderProps) => {
   const [state, setSynthState] = useState<State>({
+    audioCtx: undefined,
+    nodes: undefined,
     env: { attack: 1, release: 1 },
     freq: { carrier: 66, modulator: 176 },
     gain: { carrier: 100, modulator: 100 },
   });
 
-  const setNodes = (audioCtx?: AudioContext) => {
-    if (!audioCtx) return;
+  const { audioCtx, nodes, env, freq, gain } = state;
 
-    const nodes = {
-      analyser: audioCtx.createAnalyser(),
-      modulator: audioCtx.createOscillator(),
-      carrier: audioCtx.createOscillator(),
-      modGain: audioCtx.createGain(),
-      masterGain: audioCtx.createGain(),
-    };
+  const initialize = useCallback(
+    (audioCtx?: AudioContext) => {
+      if (!audioCtx) return;
 
-    nodes.modulator.connect(nodes.modGain);
-    nodes.modGain.connect(nodes.carrier.frequency);
-    nodes.carrier.connect(nodes.masterGain);
-    nodes.masterGain.connect(nodes.analyser);
-    nodes.analyser.connect(audioCtx.destination);
-    nodes.modulator.frequency.setValueAtTime(
-      state.freq.modulator,
-      audioCtx.currentTime
-    );
-    nodes.carrier.frequency.value = state.freq.carrier;
-    nodes.modulator.start();
-    nodes.carrier.start();
+      const analyser = audioCtx.createAnalyser();
+      const modulator = audioCtx.createOscillator();
+      const carrier = audioCtx.createOscillator();
+      const modGain = audioCtx.createGain();
+      const masterGain = audioCtx.createGain();
 
-    setSynthState({ ...state, nodes });
-  };
+      modulator.connect(modGain);
+      modGain.connect(carrier.frequency);
+      carrier.connect(masterGain);
+      masterGain.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      modulator.frequency.setValueAtTime(freq.modulator, audioCtx.currentTime);
+      carrier.frequency.value = freq.carrier;
+      modulator.start();
+      carrier.start();
+
+      const nodes = { analyser, modulator, carrier, modGain, masterGain };
+
+      setSynthState((prevState) => ({ ...prevState, nodes }));
+    },
+    [setSynthState, freq]
+  );
 
   useEffect(() => {
-    setNodes(state?.audioCtx);
-  }, [state?.audioCtx]);
+    initialize(audioCtx);
+  }, [initialize, audioCtx]);
 
   return (
     <SynthContext.Provider
       value={{
-        audioCtx: state?.audioCtx,
-        nodes: state?.nodes,
-        env: state.env,
-        freq: state.freq,
-        gain: state.gain,
+        audioCtx,
+        nodes,
+        env,
+        freq,
+        gain,
         setSynthState,
       }}
     >
-      {children}{' '}
+      {children}{" "}
     </SynthContext.Provider>
   );
 };
