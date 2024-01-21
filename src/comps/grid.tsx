@@ -1,5 +1,6 @@
-import Note from "./note";
-import { PadListUL } from "comps/lib";
+import Note from './note';
+import { PadListUL } from 'comps/lib';
+import { notStrictEqual } from 'assert';
 
 const notes = [44, 8, 54, 65, 22, 10, 52, 5];
 

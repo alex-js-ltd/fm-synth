@@ -1,5 +1,5 @@
-import { useSynth } from "context/synth-context";
-import { useSpectrumAnalyser } from "utils/use-spectrum-analyser";
+import { useSynth } from 'context/synth-context';
+import { useSpectrumAnalyser } from 'utils/use-spectrum-analyser';
 
 const SpectrumAnalayser = () => {
   const { nodes } = useSynth();
